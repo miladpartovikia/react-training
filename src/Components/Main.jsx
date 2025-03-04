@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import SideBar from "./SideBar";
+import Boxes from "./Boxes";
 
 export default class Main extends Component {
   state = {
@@ -11,7 +13,8 @@ export default class Main extends Component {
     activeBoxes: [1, 2, 3, 4],
   };
 
-  handleToggleButton(id) {
+  
+  handleToggleButton = (id) => {
     const activeBoxes = [...this.state.activeBoxes];
 
     if (activeBoxes.includes(id)) {
@@ -26,37 +29,17 @@ export default class Main extends Component {
         activeBoxes,
       };
     });
-  }
+  };
 
   render() {
-    const toggle = this.state.boxes.map((box) => {
-      return (
-        <div className="toggle">
-          <span>{box.title}</span>
-          <label className="toggle-control">
-            <input
-              type="checkbox"
-              checked={this.state.activeBoxes.includes(box.id)}
-            />
-            <span
-              className="control"
-              onClick={(e) => this.handleToggleButton(box.id)}
-            ></span>
-          </label>
-        </div>
-      );
-    });
-
-    const boxes = this.state.boxes.map((box) => {
-      if (this.state.activeBoxes.includes(box.id)) {
-        return <div className="box">{box.title}</div>;
-      }
-    });
-
     return (
       <React.Fragment>
-        <aside>{toggle}</aside>
-        <div className="box-wrapper">{boxes}</div>
+        <SideBar
+          handleToggle={this.handleToggleButton}
+          boxes={this.state.boxes}
+          activeBoxes={this.state.activeBoxes}
+        />
+        <Boxes boxes={this.state.boxes} activeBoxes={this.state.activeBoxes} />
       </React.Fragment>
     );
   }
